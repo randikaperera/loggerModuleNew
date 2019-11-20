@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="Tools_LogFormatterSeq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property expression="fn:concat('~ ',get-property('ServiceName'),' service ~')" name="VASAppFormate" scope="default" type="STRING"/>
+    <filter regex="Request" source="$ctx:Action">
+        <then>
+            <property name="Result" scope="default" type="STRING" value=" "/>
+            <property name="ActionResult" scope="default" type="STRING" value=" "/>
+            <property name="ErrorCode" scope="default" type="STRING" value=" "/>
+            <property name="ErrorMsg" scope="default" type="STRING" value=" "/>
+        </then>
+        <else/>
+    </filter>
+    <property name="VASApp" scope="default" type="STRING" value="vasapp"/>
+    <property name="user" scope="default" type="STRING" value="user"/>
+    <property name="account_id" scope="default" type="STRING" value="account_id"/>
+    <property name="source_account_id" scope="default" type="STRING" value="source_account_id"/>
+    <property name="target_account_id" scope="default" type="STRING" value="target_account_id"/>
+    <property name="sale_id" scope="default" type="STRING" value="saleid"/>
+    <property name="request_id" scope="default" type="STRING" value="reqID"/>
+    <property name="server_host" scope="default" type="STRING" value="server_host"/>
+    <property name="client_ip" scope="default" type="STRING" value="client_ip"/>
+    <property name="method_name" scope="default" type="STRING" value="method_name"/>
+    <property name="request_plan" scope="default" type="STRING" value="reqPLAN"/>
+    <property name="service_name" scope="default" type="STRING" value="ServiceName"/>
+    <property name="channel" scope="default" type="STRING" value="channel"/>
+    <property name="purchase_fee" scope="default" type="STRING" value="Purchase_Fee"/>
+    <property name="uuid" scope="default" type="STRING" value="uuid"/>
+    <property name="step" scope="default" type="STRING" value="Step"/>
+    <property name="nei" scope="default" type="STRING" value="Nei"/>
+    <property name="api" scope="default" type="STRING" value="Api"/>
+    <property name="action" scope="default" type="STRING" value="Action"/>
+    <property name="result" scope="default" type="STRING" value="ActionResult"/>
+    <property name="error_code" scope="default" type="STRING" value="ErrorCode"/>
+    <property name="error_msg" scope="default" type="STRING" value="ErrorMsg"/>
+    <property name="transaction_id" scope="default" type="STRING" value="TransactionID"/>
+    <property name="tariff_plan_cospid" scope="default" type="STRING" value="TariffPlanCOSPID"/>
+    <property name="class_of_serviceid" scope="default" type="STRING" value="ClassofServiceID"/>
+    <property name="old_plan" scope="default" type="STRING" value="OldPlan"/>
+</sequence>

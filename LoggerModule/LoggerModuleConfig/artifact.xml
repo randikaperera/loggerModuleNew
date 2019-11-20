@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoggerTestAPI" groupId="www.cellcard.com.LoggerModuleConfig.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoggerTestAPI.xml</file>
+    </artifact>
+    <artifact name="LoggerTemplate" groupId="www.cellcard.com.LoggerModuleConfig.template" version="1.0.0" type="synapse/sequenceTemplate" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/templates/LoggerTemplate.xml</file>
+    </artifact>
+    <artifact name="Tools_LogFormatterSequence" groupId="www.cellcard.com.LoggerModuleConfig.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Tools_LogFormatterSequence.xml</file>
+    </artifact>
+</artifacts>

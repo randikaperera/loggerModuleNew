@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/logger/test" name="LoggerTestAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" protocol="https">
+        <inSequence>
+            <call-template description="Call: LoggerTemplate" target="LoggerTemplate">
+                <with-param name="sequenceName" value="test sequence"/>
+                <with-param name="includeMessageBody" value="true"/>
+                <with-param name="logMessage" value="This is a test error log"/>
+                <with-param name="errorReason" value="This is the cause of the error"/>
+                <with-param name="logLevel" value="INFO"/>
+                <with-param name="logPoint" value="10020"/>
+            </call-template>
+            <enrich>
+                <source clone="true" type="inline">
+                    <response>MESSAGE</response>
+                </source>
+                <target type="body"/>
+            </enrich>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template name="LoggerTemplate" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="contextPath"/>
+    <parameter name="sequenceName"/>
+    <parameter name="logMessage"/>
+    <parameter name="errorReason"/>
+    <parameter name="logLevel"/>
+    <parameter name="unhandledError"/>
+    <parameter name="includeMessageBody"/>
+    <parameter name="logPoint"/>
+    <sequence>
+        <clone continueParent="true">
+            <target>
+                <sequence>
+                    <sequence key="Tools_LogFormatterSequence"/>
+                    <property expression="$func:contextPath" name="context_path" scope="default" type="STRING"/>
+                    <property expression="$func:sequenceName" name="sequence_name" scope="default" type="STRING"/>
+                    <property expression="$func:logLevel" name="logLevel" scope="default" type="STRING"/>
+                    <property expression="$func:unhandledError" name="unhandledError" scope="default" type="STRING"/>
+                    <property expression="$func:logMessage" name="log_message" scope="default" type="STRING"/>
+                    <property expression="$func:logPoint" name="log_point" scope="default" type="STRING"/>
+                    <property expression="$func:errorReason" name="errorReason" scope="default" type="STRING"/>
+                    <property expression="$func:includeMessageBody" name="includeMessageBody" scope="default" type="STRING"/>
+                    <class name="com.cellcard.wso2.logger.LoggerMediator"/>
+                    <drop/>
+                </sequence>
+            </target>
+        </clone>
+    </sequence>
+</template>
