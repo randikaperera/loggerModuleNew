@@ -8,4 +8,7 @@
     <artifact name="Tools_LogFormatterSequence" groupId="www.cellcard.com.LoggerModuleConfig.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Tools_LogFormatterSequence.xml</file>
     </artifact>
+    <artifact name="logBuilderSequence" groupId="www.cellcard.com.LoggerModuleConfig.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/logBuilderSequence.xml</file>
+    </artifact>
 </artifacts>

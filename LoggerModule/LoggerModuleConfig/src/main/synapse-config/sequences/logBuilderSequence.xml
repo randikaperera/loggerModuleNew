@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="logBuilderSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property expression="fn:concat('~ ',get-property('ServiceName'),' service ~')" name="VASAppFormate" scope="default" type="STRING"/>
+    <filter regex="Request" source="$ctx:Action">
+        <then>
+            <property name="Result" scope="default" type="STRING" value=" "/>
+            <property name="ActionResult" scope="default" type="STRING" value=" "/>
+            <property name="ErrorCode" scope="default" type="STRING" value=" "/>
+            <property name="ErrorMsg" scope="default" type="STRING" value=" "/>
+        </then>
+        <else/>
+    </filter>
+    <property expression="fn:concat('VASApp =','$ctx:VASAppFormate',', user = ','$ctx:user',',account_id = ','$ctx:account_id',',source_account_id =','$ctx:source_account_id',',target_account_id = ','$ctx:target_account_id')   ,',sale_id=','$ctx:saleid',',request_id =','$ctx:reqID',',server_host = ','$ctx:server_host',',client_ip =','$ctx:client_ip',',method_name =','$ctx:method_name',',request_plan=','$ctx:request_plan',',service_name = ','$ctx:service_name' ,',channel = ','$ctx:channel',',purchase_fee =','$ctx:purchase_fee',',uuid=','$ctx:uuid',',step=','$ctx:step',',nei=','$ctx:nei',',api','$ctx:api',',action=','$ctx:action',',result=','$ctx:result' ,',error_code =','$ctx:error_code',',error_msg = ','$ctx:error_msg',',transaction_id=','$ctx:transaction_id',',tariff_plan_cospid=','$ctx:tariff_plan_cospid',',class_of_serviceid =','$ctx:class_of_serviceid',',old_plan=','$ctx:old_plan'               " name="logEntry" scope="default" type="STRING"/>
+</sequence>
