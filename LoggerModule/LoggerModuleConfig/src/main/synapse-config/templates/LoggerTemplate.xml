@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template name="LoggerTemplate" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="contextPath"/>
-    <parameter name="sequenceName"/>
-    <parameter name="logMessage"/>
-    <parameter name="errorReason"/>
-    <parameter name="logLevel"/>
-    <parameter name="unhandledError"/>
-    <parameter name="includeMessageBody"/>
-    <parameter name="logPoint"/>
+    <parameter name="application_name"/>
+    <parameter name="artifact_name"/>
+    <parameter name="log_level"/>
+    <parameter name="log_message"/>
+    <parameter name="log_point"/>
+    <parameter name="include_message_body"/>
     <sequence>
-        <clone continueParent="true">
-            <target>
-                <sequence>
-                    <sequence key="Tools_LogFormatterSequence"/>
-                    <property expression="$func:contextPath" name="context_path" scope="default" type="STRING"/>
-                    <property expression="$func:sequenceName" name="sequence_name" scope="default" type="STRING"/>
-                    <property expression="$func:logLevel" name="logLevel" scope="default" type="STRING"/>
-                    <property expression="$func:unhandledError" name="unhandledError" scope="default" type="STRING"/>
-                    <property expression="$func:logMessage" name="log_message" scope="default" type="STRING"/>
-                    <property expression="$func:logPoint" name="log_point" scope="default" type="STRING"/>
-                    <property expression="$func:errorReason" name="errorReason" scope="default" type="STRING"/>
-                    <property expression="$func:includeMessageBody" name="includeMessageBody" scope="default" type="STRING"/>
-                    <class name="com.cellcard.wso2.logger.LoggerMediator"/>
-                    <drop/>
-                </sequence>
-            </target>
-        </clone>
+        <property expression="$func:application_name" name="application_name" scope="default" type="STRING"/>
+        <property expression="$func:artifact_name" name="artifact_name" scope="default" type="STRING"/>
+        <property expression="$func:log_level" name="log_level" scope="default" type="STRING"/>
+        <property expression="$func:log_message" name="log_message" scope="default" type="STRING"/>
+        <property expression="$func:log_point" name="log_point" scope="default" type="STRING"/>
+        <property expression="$func:include_message_body" name="include_message_body" scope="default" type="STRING"/>
+        <switch source="$ctx:application_name">
+            <case regex="VASApp">
+                <sequence key="Tools_LogFormatterSequence"/>
+            </case>
+            <case regex="CApp">
+                <sequence key="CApp_FormateLogSeq"/>
+            </case>
+            <default/>
+        </switch>
+        <sequence key="Tools_LogFormatterSequence"/>
+        <class name="com.cellcard.wso2.logger.LoggerMediator"/>
     </sequence>
 </template>

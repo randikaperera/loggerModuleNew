@@ -3,12 +3,43 @@
     <resource methods="POST" protocol="https">
         <inSequence>
             <call-template description="Call: LoggerTemplate" target="LoggerTemplate">
-                <with-param name="sequenceName" value="test sequence"/>
-                <with-param name="includeMessageBody" value="true"/>
-                <with-param name="logMessage" value="This is a test error log"/>
-                <with-param name="errorReason" value="This is the cause of the error"/>
-                <with-param name="logLevel" value="INFO"/>
-                <with-param name="logPoint" value="10020"/>
+                <with-param name="application_name" value="CApp"/>
+                <with-param name="artifact_name" value="test sequence"/>
+                <with-param name="log_level" value="INFO"/>
+                <with-param name="log_message" value="This is a test error log"/>
+                <with-param name="log_point" value="10021"/>
+            </call-template>
+            <call-template description="Call: LoggerTemplate" target="LoggerTemplate">
+                <with-param name="application_name" value="CApp"/>
+                <with-param name="artifact_name" value="test sequence"/>
+                <with-param name="log_level" value="INFO"/>
+                <with-param name="log_message" value="This is a test error log"/>
+                <with-param name="log_point" value="10022"/>
+                <with-param name="include_message_body" value="false"/>
+            </call-template>
+            <call-template description="Call: LoggerTemplate" target="LoggerTemplate">
+                <with-param name="application_name" value="CApp"/>
+                <with-param name="artifact_name" value="test sequence"/>
+                <with-param name="log_level" value="INFO"/>
+                <with-param name="log_message" value="This is a test error log"/>
+                <with-param name="log_point" value="10023"/>
+                <with-param name="include_message_body" value="true"/>
+            </call-template>
+            <call-template description="Call: LoggerTemplate" target="LoggerTemplate">
+                <with-param name="application_name" value="VASApp"/>
+                <with-param name="artifact_name" value="test sequence"/>
+                <with-param name="log_level" value="DEBUG"/>
+                <with-param name="log_message" value="This is a test error log"/>
+                <with-param name="log_point" value="10024"/>
+                <with-param name="include_message_body" value="true"/>
+            </call-template>
+            <call-template description="Call: LoggerTemplate" target="LoggerTemplate">
+                <with-param name="application_name" value="VASApp"/>
+                <with-param name="artifact_name" value="test sequence"/>
+                <with-param name="log_level" value="ERROR"/>
+                <with-param name="log_message" value="This is a test error log"/>
+                <with-param name="log_point" value="10025"/>
+                <with-param name="include_message_body" value="true"/>
             </call-template>
             <enrich>
                 <source clone="true" type="inline">

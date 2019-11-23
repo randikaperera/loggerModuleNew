@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="CApp_FormateLogSeq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property name="CAppFormate" scope="default" type="STRING" value="` CApp Provisioning `"/>
+    <filter regex="Request" source="$ctx:Action">
+        <then>
+            <property name="Result" scope="default" type="STRING" value=" "/>
+            <property name="ErrorCode" scope="default" type="STRING" value=" "/>
+            <property name="ErrorMsg" scope="default" type="STRING" value=" "/>
+            <property name="customer_type" scope="default" type="STRING" value=" "/>
+        </then>
+        <else/>
+    </filter>
+    <property name="CApp" scope="default" type="STRING" value="CApp"/>
+    <property name="cpp_user" scope="default" type="STRING" value="cpp_user"/>
+    <property name="client_ip" scope="default" type="STRING" value="client_ip"/>
+    <property name="msisdn" scope="default" type="STRING" value="msisdn"/>
+    <property name="new_msisdn" scope="default" type="STRING" value="new_msisdn"/>
+    <property name="customer_type" scope="default" type="STRING" value="customer_type"/>
+    <property name="imsi" scope="default" type="STRING" value="imsi"/>
+    <property name="step" scope="default" type="STRING" value="step"/>
+    <property name="nei" scope="default" type="STRING" value="nei"/>
+    <property name="api" scope="default" type="STRING" value="api"/>
+    <property name="action" scope="default" type="STRING" value="action"/>
+    <property name="method_name" scope="default" type="STRING" value="method_name"/>
+    <property name="error_code" scope="default" type="STRING" value="error_code"/>
+    <property name="error_msg" scope="default" type="STRING" value="error_msg"/>
+    <property name="transaction_id" scope="default" type="STRING" value="transaction_id"/>
+    <property name="Request_ID" scope="default" type="STRING" value="Request_ID"/>
+    <property name="Request_BY" scope="default" type="STRING" value="Request_BY"/>
+    <property name="Reason" scope="default" type="STRING" value="Reason"/>
+    <property name="result" scope="default" type="STRING" value="result"/>
+    <property name="server_host" scope="default" type="STRING" value="server_host"/>
+    <property name="amount" scope="default" type="STRING" value="amount"/>
+</sequence>

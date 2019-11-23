@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template name="Log_Builder_Template" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="sequenceName"/>
+    <parameter name="logMessage"/>
+    <parameter name="errorReason"/>
+    <parameter name="logLevel"/>
+    <parameter name="unhandledError"/>
+    <parameter name="includeMessageBody"/>
+    <parameter name="logPoint"/>
+    <sequence>
+        <clone continueParent="true">
+            <target>
+                <sequence>
+                    <sequence key="Tools_LogFormatterSequence"/>
+                    <property expression="$func:sequenceName" name="sequence_name" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd"/>
+                    <property expression="$func:logLevel" name="logLevel" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd"/>
+                    <property expression="$func:unhandledError" name="unhandledError" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd"/>
+                    <property expression="$func:logMessage" name="log_message" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd"/>
+                    <property expression="$func:logPoint" name="log_point" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd"/>
+                    <property expression="$func:errorReason" name="errorReason" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd"/>
+                    <property expression="$func:includeMessageBody" name="includeMessageBody" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd"/>
+                    <filter regex="INFO" source="$ctx:logLevel" xmlns:ns="http://org.apache.synapse/xsd" xmlns:ns2="http://org.apache.synapse/xsd">
+                        <then>
+                            <log level="custom">
+                                <property expression="fn:concat($ctx:sequence_name,',VASApp =',$ctx:vasapp,', user = ',$ctx:user,',account_id = ',$ctx:account_id,',source_account_id =',$ctx:source_account_id,',target_account_id = ',$ctx:target_account_id ,',sale_id=',$ctx:saleid,',request_id =',$ctx:reqID,',server_host = ',$ctx:server_host,',client_ip =',$ctx:client_ip,',method_name =',$ctx:method_name,',request_plan=',$ctx:request_plan,',service_name = ',$ctx:service_name ,',channel = ',$ctx:channel,',purchase_fee =',$ctx:purchase_fee,',uuid=',$ctx:uuid,',step=',$ctx:step,',nei=',$ctx:nei,',api',$ctx:api,',action=',$ctx:action,',result=',$ctx:result ,',error_code =',$ctx:error_code,',error_msg = ',$ctx:error_msg,',transaction_id=',$ctx:transaction_id,',tariff_plan_cospid=',$ctx:tariff_plan_cospid,',class_of_serviceid =',$ctx:class_of_serviceid,',old_plan=',$ctx:old_plan)" name="VASAppFormate"/>
+                            </log>
+                        </then>
+                        <else>
+                            <log category="DEBUG" level="custom">
+                                <property expression="fn:concat($ctx:sequence_name,',VASApp =',$ctx:vasapp,', user = ',$ctx:user,',account_id = ',$ctx:account_id,',source_account_id =',$ctx:source_account_id,',target_account_id = ',$ctx:target_account_id ,',sale_id=',$ctx:saleid,',request_id =',$ctx:reqID,',server_host = ',$ctx:server_host,',client_ip =',$ctx:client_ip,',method_name =',$ctx:method_name,',request_plan=',$ctx:request_plan,',service_name = ',$ctx:service_name ,',channel = ',$ctx:channel,',purchase_fee =',$ctx:purchase_fee,',uuid=',$ctx:uuid,',step=',$ctx:step,',nei=',$ctx:nei,',api',$ctx:api,',action=',$ctx:action,',result=',$ctx:result ,',error_code =',$ctx:error_code,',error_msg = ',$ctx:error_msg,',transaction_id=',$ctx:transaction_id,',tariff_plan_cospid=',$ctx:tariff_plan_cospid,',class_of_serviceid =',$ctx:class_of_serviceid,',old_plan=',$ctx:old_plan)" name="VASAppFormate"/>
+                            </log>
+                        </else>
+                    </filter>
+                </sequence>
+            </target>
+        </clone>
+        <drop/>
+    </sequence>
+</template>

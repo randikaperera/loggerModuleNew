@@ -11,6 +11,9 @@
   <modules>
     <module>artifacts/api/LoggerTestAPI</module>
     <module>artifacts/template/LoggerTemplate</module>
+    <module>artifacts/template/LogBuilderTemplate</module>
     <module>artifacts/sequence/Tools_LogFormatterSequence</module>
+    <module>artifacts/sequence/logBuilderSequence</module>
+    <module>artifacts/sequence/CApp_FormateLogSeq</module>
   </modules>
 </project>

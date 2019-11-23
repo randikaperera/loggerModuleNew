@@ -11,4 +11,10 @@
     <artifact name="logBuilderSequence" groupId="www.cellcard.com.LoggerModuleConfig.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/logBuilderSequence.xml</file>
     </artifact>
+    <artifact name="LogBuilderTemplate" groupId="www.cellcard.com.LoggerModuleConfig.template" version="1.0.0" type="synapse/sequenceTemplate" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/templates/LogBuilderTemplate.xml</file>
+    </artifact>
+    <artifact name="CApp_FormateLogSeq" groupId="www.cellcard.com.LoggerModuleConfig.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/CApp_FormateLogSeq.xml</file>
+    </artifact>
 </artifacts>

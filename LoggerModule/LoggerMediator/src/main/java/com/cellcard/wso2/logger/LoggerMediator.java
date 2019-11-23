@@ -26,18 +26,27 @@ public class LoggerMediator extends AbstractMediator {
 	}
 
 	private Level getLogLevel(MessageContext context) {
-		String logLevel = getSynapseValue("logLevel", context);
+		String logLevel = getSynapseValue("log_level", context);
 
 		if (null != logLevel && logLevel.trim().length() > 0)
 			return Level.toLevel(logLevel);
 		else
 			return Level.INFO;
 	}
+
 	private String buildLog(MessageContext context) {
 		org.apache.axis2.context.MessageContext axis2Context = getAxis2Context(context);
-		String dynamicLogString = new String();
-		LogFields logFields = new LogFields();
-		
+		String commonLogString = new String();
+		String logString = new String();
+		//String vasAppLogString = new String();
+		//String cAppLogString = new String();
+		String messageBody = null;
+		String originatingErrorCode = null;
+		String originatingErrorMessage = null;
+		String originatingErrorDetail = null;
+
+		/*LogFields logFields = new LogFields();
+
 		logFields.setVasAppFormate(getSynapseValue("VASApp", context));
 		logFields.setUser(getSynapseValue("user", context));
 		logFields.setAccountId(getSynapseValue("account_id", context));
@@ -71,41 +80,95 @@ public class LoggerMediator extends AbstractMediator {
 		logFields.setLogPoint(getSynapseValue("log_message", context));
 		logFields.setLogMessage(getSynapseValue("log_point", context));
 		logFields.setErrorMessage(getSynapseValue("error_message", context));
-		logFields.setErrorReason(getSynapseValue("error_reason", context));
+		logFields.setErrorReason(getSynapseValue("error_reason", context));*/
 
-		if (includeMessageBody(context) | includeErrorBody(context)) {
-			logFields.setMessageBody(getBody(context, axis2Context).toString());
-			dynamicLogString = logFields.getContextPath() + "," + logFields.getSequenceName() + ","
-					+ logFields.getLogPoint() + "," + logFields.getLogMessage() + "," + logFields.getMessageBody();
-
+		if (isTrue(getSynapseValue("include_message_body", context))) {
+				messageBody = getBody(context, axis2Context).toString();			
 		}
-
-		if (includeErrorBody(context)) {
-			logFields.setErrorReason(getSynapseValue("errorReason", context));
-			dynamicLogString = logFields.getContextPath() + "," + logFields.getSequenceName() + ","
-					+ logFields.getLogPoint() + "," + logFields.getLogMessage() + "," + logFields.getMessageBody() + ","
-					+ logFields.getErrorReason();
-
-			if (isUnhandledError(context)) {
-				logFields.setOriginatingErrorMessage(getSynapseValue("ERROR_MESSAGE", context));
-				logFields.setOriginatingErrorDetail(getSynapseValue("ERROR_DETAIL", context));
-				
-				dynamicLogString = logFields.getContextPath() + "," + logFields.getSequenceName() + ","
-						+ logFields.getLogPoint() + "," + logFields.getLogMessage() + "," + logFields.getMessageBody()
-						+ "," + logFields.getErrorReason() + "," + logFields.getOriginatingErrorMessage() + ","
-						+ logFields.getOriginatingErrorDetail();
-			}
+		else {
+			messageBody = "";
 		}
-		return dynamicLogString+", VASApp = " + logFields.getVasAppFormate() + " , user = " + logFields.getUser() + " , account_id = " + logFields.getAccountId()
-		+ " , source_account_id = " + logFields.getSourceAccountId() + " , target_account_id = " + logFields.getTargetAccountId()
-		+ " , sale_id = " + logFields.getSaleId() + " , request_id = " + logFields.getRequestId() + " , server_host = " + logFields.getServerHost()
-		+ " , client_ip = " + logFields.getClientIp() + " , method_name = " + logFields.getMethodName() + " , request_plan = " + logFields.getRequestPlan()
-		+ " , service_name = " + logFields.getServiceName() + " , channel = " + logFields.getChannel() + " , purchase_fee = " + logFields.getPurchaseFee() + " , uuid = " 
-		+ logFields.getUuid() + " , step = " + logFields.getStep() + " , nei = " + logFields.getNei() + " , api = " + logFields.getApi() + " , action = " + logFields.getAction() 
-		+ " , result = " + logFields.getResult() + " , error_code = " + logFields.getErrorCode() + " , error_msg = " + logFields.getErrorMsg() + " , transaction_id = "
-		+ logFields.getTransactionPlan() + " , tariff_plan_cospid = " + logFields.getTariffPlanCospid() + " , class_of_serviceid = "
-		+ logFields.getClassOfServiceid() + " , old_plan = " + logFields.getOldPlan();
-
+		if (getSynapseValue("ERROR_CODE", context)!=null) {
+			originatingErrorCode = getSynapseValue("ERROR_CODE", context);
+		} else {
+			originatingErrorCode = "";
+		}
+		if (getSynapseValue("ERROR_MESSAGE", context)!=null) {
+			originatingErrorMessage = getSynapseValue("ERROR_MESSAGE", context);
+		} else {
+			originatingErrorMessage = "";
+		}
+		if (getSynapseValue("ERROR_DETAIL", context)!=null) {
+			originatingErrorDetail = getSynapseValue("ERROR_DETAIL", context);
+		} else {
+			originatingErrorDetail = "";
+		}
+		/*
+		 * 
+		 * 
+		 * dynamicLogString = logFields.getContextPath() + "," +
+		 * logFields.getSequenceName() + "," + logFields.getLogPoint() + "," +
+		 * logFields.getLogMessage() + "," + logFields.getMessageBody() + "," +
+		 * logFields.getErrorReason() + "," + logFields.getOriginatingErrorMessage() +
+		 * "," + logFields.getOriginatingErrorDetail(); } }
+		 */
+		commonLogString=getSynapseValue("REST_API_CONTEXT", context) + "," + getSynapseValue("artifact_name", context) + ","
+				+ getSynapseValue("log_message", context) + "," + getSynapseValue("log_point", context) + ","
+				+ messageBody + "," + originatingErrorCode + "," + originatingErrorMessage + ","
+				+ originatingErrorDetail + ",";
+		if(getSynapseValue("application_name", context).trim().equals("VASApp")) {
+		
+		logString= commonLogString + getSynapseValue("application_name", context) + " = "
+				+ getSynapseValue("VASApp", context) 
+				+ ", user = " + getSynapseValue("user", context)
+				+ ", account_id = " + getSynapseValue("account_id", context) 
+				+ ", source_account_id = " + getSynapseValue("source_account_id", context) 
+				+ ", target_account_id = " + getSynapseValue("target_account_id", context) 
+				+ ", sale_id = " + getSynapseValue("sale_id", context)
+				+ ", request_id = " + getSynapseValue("request_id", context) 
+				+ ", server_host = " + getSynapseValue("server_host", context) 
+				+ ", client_ip = " + getSynapseValue("client_ip", context)
+				+ ", method_name = " + getSynapseValue("method_name", context) 
+				+ ", request_plan = " + getSynapseValue("request_plan", context) 
+				+ ", service_name = " + getSynapseValue("service_name", context) 
+				+ ", channel = " + getSynapseValue("channel", context)
+				+ ", purchase_fee = " + getSynapseValue("purchase_fee", context) 
+				+ ", uuid = " + getSynapseValue("uuid", context) 
+				+ ", step = " + getSynapseValue("step", context) 
+				+ ", nei = " + getSynapseValue("nei", context) 
+				+ ", api = " + getSynapseValue("api", context) 
+				+ ", action = " + getSynapseValue("action", context) 
+				+ ", result = " + getSynapseValue("result", context)
+				+ ", error_code = " + getSynapseValue("error_code", context) 
+				+ ", error_msg = " + getSynapseValue("error_msg", context) 
+				+ ", transaction_id = " + getSynapseValue("transaction_id", context) 
+				+ ", tariff_plan_cospid = " + getSynapseValue("tariff_plan_cospid", context) 
+				+ ", class_of_serviceid = " + getSynapseValue("class_of_serviceid", context) 
+				+ ", old_plan = " + getSynapseValue("old_plan", context);
+		}
+		else if(getSynapseValue("application_name", context).trim().equals("CApp")){
+		logString = commonLogString + getSynapseValue("application_name", context) + " = "
+				+ getSynapseValue("CApp", context) 
+				+ ", cpp_user = " + getSynapseValue("cpp_user", context)
+				+ ", client_ip = " + getSynapseValue("client_ip", context) 
+				+ ", msisdn = "+ getSynapseValue("msisdn", context) 
+				+ ", new_msisdn = " + getSynapseValue("new_msisdn", context) 
+				+ ", customer_type = " + getSynapseValue("customer_type", context)
+				+ ", imsi = " + getSynapseValue("imsi", context) 
+				+ ", step = " + getSynapseValue("step", context) 
+				+ ", nei = " + getSynapseValue("nei", context) 
+				+ ", api = " + getSynapseValue("api", context)
+				+ ", action = " + getSynapseValue("action", context) 
+				+ ", method_name = " + getSynapseValue("method_name", context) 
+				+ ", error_code = " + getSynapseValue("error_code", context) 
+				+ ", error_msg = "+ getSynapseValue("error_msg", context) 
+				+ ", transaction_id = " + getSynapseValue("transaction_id", context) 
+				+ ", Request_ID = " + getSynapseValue("Request_ID", context) 
+				+ ", Request_BY = " + getSynapseValue("Request_BY", context) 
+				+ ", result = " + getSynapseValue("Reason", context)
+				+ ", server_host = " + getSynapseValue("server_host", context)
+				+ ", amount = " + getSynapseValue("amount", context);}
+		return logString;
 	}
 
 	private Object getBody(MessageContext context, org.apache.axis2.context.MessageContext axis2Context) {
@@ -126,7 +189,7 @@ public class LoggerMediator extends AbstractMediator {
 		try {
 			SOAPBody body = context.getEnvelope().getBody();
 			return body.getFirstElement().toString();
-		} catch (RuntimeException e) { 
+		} catch (RuntimeException e) {
 			String sequence = (null != context) ? getSynapseValue("sequenceName", context) : "unknown sequence";
 			CARBON_LOGGER.warn("getSoapBody: Request made to log message body from " + sequence
 					+ " when no message body exists, returning null instead");
@@ -152,11 +215,11 @@ public class LoggerMediator extends AbstractMediator {
 			return new Gson().toJson(jsonElement);
 		}
 	}
-
+/*
 	private boolean includeMessageBody(MessageContext context) {
-		Level level = getLogLevel(context);
-		return ((level.equals(Level.INFO) || level.equals(Level.TRACE) || level.equals(Level.WARN))
-				& isTrue(getSynapseValue("includeMessageBody", context)));
+		//Level level = getLogLevel(context);
+		//return ((level.equals(Level.INFO) || level.equals(Level.TRACE) || level.equals(Level.WARN))
+		//		& isTrue(getSynapseValue("includeMessageBody", context)));
 	}
 
 	private boolean isUnhandledError(MessageContext context) {
@@ -167,15 +230,15 @@ public class LoggerMediator extends AbstractMediator {
 		Level level = getLogLevel(context);
 		return ((level.equals(Level.DEBUG) || level.equals(Level.ERROR) || level.equals(Level.FATAL))
 				& isTrueOrEmpty(getSynapseValue("includeMessageBody", context)));
-	}
+	}*/
 
 	private boolean isTrue(String value) {
 		return null != value && "true".equalsIgnoreCase(value);
 	}
 
-	private boolean isTrueOrEmpty(String value) {
+	/*private boolean isTrueOrEmpty(String value) {
 		return null == value || value.isEmpty() || "true".equalsIgnoreCase(value);
-	}
+	}*/
 
 	private String getSynapseValue(String key, MessageContext context) {
 		return (String) context.getProperty(key);
